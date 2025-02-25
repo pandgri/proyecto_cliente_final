@@ -57,6 +57,37 @@ const games = [
 // Carrito de compras
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+let maxPrice = Math.max(...games.map(game => game.price));
+
+// Elementos del filtrado
+const priceFilter = document.getElementById('priceFilter');
+const priceValue = document.getElementById('priceValue');
+
+// Inicializar filtro de precios
+const initPriceFilter = () => {
+    priceFilter.max = maxPrice;
+    priceFilter.value = maxPrice;
+    priceValue.textContent = `$${maxPrice.toFixed(2)}`;
+};
+
+// Filtrado de juegos
+const filterGames = () => {
+    const currentMax = games.length > 0 ? Math.max(...games.map(game => game.price)) : 0;
+    const filteredGames = games.filter(game => game.price <= parseFloat(priceFilter.value));
+    renderGames(filteredGames);
+    priceValue.textContent = `$${parseFloat(priceFilter.value).toFixed(2)}`;
+    
+    // Actualizar máximo dinámicamente si cambian los datos
+    if (currentMax !== maxPrice) {
+        maxPrice = currentMax;
+        priceFilter.max = maxPrice;
+    }
+};
+
+// Eventos del filtro
+priceFilter.addEventListener('input', filterGames);
+priceFilter.addEventListener('change', filterGames);
+
 // Funciones del carrito
 const updateCart = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -78,9 +109,9 @@ const addToCart = (gameId) => {
 };
 
 // Funciones de renderizado
-const renderGames = () => {
+const renderGames = (gamesArray = games) => {
     const gamesList = document.getElementById('games-list');
-    gamesList.innerHTML = games.map(game => {
+    gamesList.innerHTML = gamesArray.map(game => {
         const averageRating = game.reviews.length > 0 
             ? game.reviews.reduce((sum, review) => sum + review.rating, 0) / game.reviews.length
             : 0;
@@ -195,6 +226,9 @@ const showToast = (message) => {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
+    // Calcular maxPrice después de cargar los datos
+    maxPrice = games.length > 0 ? Math.max(...games.map(game => game.price)) : 0;
+    initPriceFilter();
     renderGames();
     updateCart();
 });

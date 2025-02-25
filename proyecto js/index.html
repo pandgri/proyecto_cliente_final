@@ -60,6 +60,12 @@
     <section class="games-section py-5">
         <div class="container">
             <h2 class="gaming-font text-center mb-5">Últimos Lanzamientos</h2>
+            <div class="row mb-4">
+                <div class="col-md-6 mx-auto">
+                    <label for="priceFilter" class="form-label text-light">Filtrar por precio: <span id="priceValue"></span></label>
+                    <input type="range" class="form-range" id="priceFilter" min="0" step="0.01">
+                </div>
+            </div>
             <div class="row g-4" id="games-list">
                 <!-- Juegos cargados dinámicamente -->
             </div>
