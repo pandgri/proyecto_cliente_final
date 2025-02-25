@@ -58,6 +58,7 @@ const games = [
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Función para mostrar juegos
+
 function renderGames() {
     const gamesList = document.getElementById('games-list');
     gamesList.innerHTML = games.map(game => `
