@@ -57,28 +57,58 @@ const games = [
 // Carrito de compras
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Función para mostrar juegos
+// Funciones del carrito
+const updateCart = () => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+};
 
-function renderGames() {
+const addToCart = (gameId) => {
+    const game = games.find(g => g.id === gameId);
+    const existingItem = cart.find(item => item.id === gameId);
+    
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ ...game, quantity: 1 });
+    }
+    
+    updateCart();
+    showToast('¡Juego añadido al carrito!');
+};
+
+// Funciones de renderizado
+const renderGames = () => {
     const gamesList = document.getElementById('games-list');
-    gamesList.innerHTML = games.map(game => `
+    gamesList.innerHTML = games.map(game => {
+        const averageRating = game.reviews.length > 0 
+            ? game.reviews.reduce((sum, review) => sum + review.rating, 0) / game.reviews.length
+            : 0;
+
+        return `
         <div class="col-md-4">
             <div class="game-card card h-100" data-id="${game.id}" onclick="showGameDetails(${game.id})">
                 <img src="${game.image}" class="card-img-top" alt="${game.title}">
                 <div class="card-body">
                     <h5 class="card-title">${game.title}</h5>
                     <p class="card-text">$${game.price}</p>
+                    <div class="reviews-small mb-3">
+                        ${averageRating > 0 
+                            ? `★ ${averageRating.toFixed(1)} (${game.reviews.length} reseñas)`
+                            : 'Sin reseñas aún'}
+                    </div>
                     <button class="btn gaming-btn w-100" onclick="event.stopPropagation(); addToCart(${game.id})">
                         <i class="bi bi-cart-plus"></i> Añadir al carrito
                     </button>
                 </div>
             </div>
         </div>
-    `).join('');
-}
+        `;
+    }).join('');
+};
 
-// Función para mostrar detalles del juego
-function showGameDetails(gameId) {
+// Funciones del modal
+const showGameDetails = (gameId) => {
     const game = games.find(g => g.id === gameId);
     const modalContent = document.getElementById('gameModalContent');
     
@@ -124,31 +154,31 @@ function showGameDetails(gameId) {
     `;
     
     new bootstrap.Modal(document.getElementById('gameModal')).show();
-}
+};
 
-// Función para añadir al carrito
-function addToCart(gameId) {
-    const game = games.find(g => g.id === gameId);
-    const existingItem = cart.find(item => item.id === gameId);
+const submitReview = (event, gameId) => {
+    event.preventDefault();
+    const form = event.target;
+    const textarea = form.querySelector('textarea');
+    const select = form.querySelector('select');
     
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cart.push({ ...game, quantity: 1 });
-    }
+    const newReview = {
+        user: "Usuario",
+        rating: parseInt(select.value),
+        comment: textarea.value
+    };
+
+    const gameIndex = games.findIndex(g => g.id === gameId);
+    games[gameIndex].reviews.push(newReview);
     
-    updateCart();
-    showToast('¡Juego añadido al carrito!');
-}
+    localStorage.setItem('games', JSON.stringify(games));
+    renderGames();
+    showGameDetails(gameId);
+    form.reset();
+};
 
-// Actualizar carrito
-function updateCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-}
-
-// Función para mostrar notificaciones
-function showToast(message) {
+// Notificaciones
+const showToast = (message) => {
     const toast = document.createElement('div');
     toast.className = 'toast align-items-center text-bg-primary border-0';
     toast.innerHTML = `
@@ -161,7 +191,7 @@ function showToast(message) {
     document.body.appendChild(toast);
     new bootstrap.Toast(toast, { autohide: true, delay: 2000 }).show();
     setTimeout(() => toast.remove(), 2500);
-}
+};
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
