@@ -1,171 +1,187 @@
-/* Fuentes */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans&display=swap');
+:root {
+    --primary-color: #00ff9d;
+    --secondary-color: #7000ff;
+    --dark-bg: #0a0a0a;
+    --card-bg: #1a1a1a;
+}
 
-/* Estilos Generales */
 body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #1E1E1E;
-    color: #FFFFFF;
-    margin: 0;
-    padding: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-}
-
-a {
-    color: #FF6B6B;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #4ECDC4;
-}
-
-/* Navbar */
-.navbar {
-    background-color: rgba(30, 30, 30, 0.9) !important;
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    transition: background-color 0.3s;
-}
-
-.navbar.scrolled {
-    background-color: #1E1E1E !important;
-}
-
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #FF6B6B !important;
-}
-
-.nav-link {
-    color: #FFFFFF !important;
-    margin-left: 1rem;
-    transition: color 0.3s;
-}
-
-.nav-link:hover {
-    color: #4ECDC4 !important;
-}
-
-/* Hero Section */
-.hero-section {
-    background: url('hero-bg.jpg') no-repeat center center/cover;
-    height: 100vh;
+    background-color: var(--dark-bg);
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    flex-direction: column;
+}
+
+.gaming-font {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc');
+    background-size: cover;
+    background-position: center;
     position: relative;
 }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(30, 30, 30, 0.6);
+.auth-card {
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,255,157,0.2);
 }
 
-.hero-section h1 {
-    font-size: 4rem;
-    color: #FFFFFF;
-    z-index: 1;
+.profile-card {
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
 }
 
-.hero-section p {
-    font-size: 1.5rem;
-    color: #CCCCCC;
-    z-index: 1;
-}
-
-.hero-section .btn {
-    background-color: #FF6B6B;
-    border: none;
-    padding: 0.75rem 2rem;
-    font-size: 1.2rem;
-    transition: background-color 0.3s;
-    z-index: 1;
-}
-
-.hero-section .btn:hover {
-    background-color: #4ECDC4;
-}
-
-/* Listado de Videojuegos */
-.games-section {
-    padding: 4rem 0;
-    background-color: #1E1E1E;
-}
-
-.games-section h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #FF6B6B;
-}
-
-.card {
-    background-color: #2E2E2E;
-    border: none;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card-img-top {
-    width: 100%;
+.profile-avatar {
+    width: 200px;
     height: 200px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    padding: 5px;
+}
+
+.game-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0,255,157,0.2);
+}
+
+.review-card {
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid var(--primary-color);
+}
+
+.rating-stars {
+    color: var(--primary-color);
+}
+
+#productDetail {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid var(--primary-color);
+}
+
+.btn.gaming-btn {
+    background: var(--primary-color);
+    color: #000;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn.gaming-btn:hover {
+    background: #00cc7a;
+    transform: scale(1.05);
+}
+
+.form-control {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+}
+
+.form-control:focus {
+    background: rgba(255,255,255,0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0,255,157,0.3);
+}
+
+footer {
+    margin-top: auto;
+}
+
+.game-card img {
+    height: 400px;
     object-fit: cover;
-    transition: transform 0.3s;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
 }
 
-.card:hover .card-img-top {
-    transform: scale(1.1);
+/* Contenedor de imagen con relación 16:9 */
+.image-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    background: #2a2a2a;
+    border-radius: 5px 5px 0 0;
 }
 
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover para imágenes */
+.game-card:hover .image-container img {
+    transform: scale(1.05);
+}
+
+/* Alineación del contenido */
 .card-body {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card-title {
     font-size: 1.25rem;
-    color: #FFFFFF;
+    margin-bottom: 0.75rem;
 }
 
 .card-text {
-    font-size: 1rem;
-    color: #CCCCCC;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    font-weight: bold;
 }
 
-.btn-primary {
-    background-color: #FF6B6B;
-    border: none;
-    transition: background-color 0.3s;
+.border-primary {
+    border-color: var(--primary-color) !important;
 }
 
-.btn-primary:hover {
-    background-color: #4ECDC4;
+.cart-item {
+    transition: all 0.3s ease;
 }
 
-/* Footer */
-footer {
-    background-color: #2E2E2E;
-    padding: 1rem 0;
-    text-align: center;
-    color: #CCCCCC;
-    margin-top: 4rem;
+.cart-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 255, 157, 0.1);
+}
+
+.toast {
+    margin-bottom: 10px;
+}
+
+.cart-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cart-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 157, 0.1);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }
