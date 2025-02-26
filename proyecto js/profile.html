@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamesHood - Mi Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="custom-body">
+    <!-- Navbar (igual que index.html) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 border-bottom border-primary">
+        <div class="container">
+            <a class="navbar-brand gaming-font" href="index.html">
+                <i class="bi bi-joystick me-2"></i>GamesHood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="profile.html">Perfil</a></li>
+                            <li><a class="dropdown-item" href="orders.html">Mis Pedidos</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="cart.html">
+                            <i class="bi bi-cart3"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                id="cartCount">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido del Perfil -->
+    <main class="container my-5">
+        <div class="row g-4">
+            <!-- Columna Izquierda - Información del Usuario -->
+            <div class="col-md-4">
+                <div class="profile-card p-4 text-center">
+                    <div class="mb-4">
+                        <img src="../productos/gatete.png" class="profile-avatar"
+                            alt="Avatar del usuario">
+                        <div class="mt-3">
+                            <button class="btn gaming-btn btn-sm" data-bs-toggle="modal" data-bs-target="#avatarModal">
+                                <i class="bi bi-camera"></i> Cambiar Avatar
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="gaming-font mb-3" id="username">Usuario123</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i>usuario@example.com</li>
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Madrid, España</li>
+                        <li class="mb-2"><i class="bi bi-calendar me-2"></i>Miembro desde: 2023</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Columna Derecha - Contenido Principal -->
+            <div class="col-md-8">
+                <!-- Sección de Edición de Perfil -->
+                <div class="profile-section mb-4 p-4">
+                    <h4 class="gaming-font mb-4"><i class="bi bi-pencil-square me-2"></i>Editar Perfil</h4>
+                    <form id="profileForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="name" value="Usuario">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" value="usuario@example.com">
+                            </div>
+                            <div class="col-12">
+                                <label for="bio" class="form-label">Biografía</label>
+                                <textarea class="form-control" id="bio"
+                                    rows="3">Apasionado de los videojuegos desde 2010</textarea>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn gaming-btn">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Historial de Pedidos -->
+                <div class="profile-section mb-4 p-4">
+                    <h4 class="gaming-font mb-4"><i class="bi bi-receipt me-2"></i>Últimos Pedidos</h4>
+                    <div class="orders-list" id="ordersList">
+                        <!-- Pedidos cargados dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Configuración de Seguridad -->
+                <div class="profile-section p-4">
+                    <h4 class="gaming-font mb-4"><i class="bi bi-shield-lock me-2"></i>Seguridad</h4>
+                    <div class="security-settings">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6>Contraseña</h6>
+                                <p class="text-muted mb-0">Último cambio: hace 3 meses</p>
+                            </div>
+                            <button class="btn gaming-btn btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#passwordModal">
+                                Cambiar Contraseña
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6>Autenticación en Dos Pasos</h6>
+                                <p class="text-muted mb-0">No activada</p>
+                            </div>
+                            <button class="btn gaming-btn btn-sm">
+                                Activar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modales -->
+    <!-- Modal Cambiar Avatar -->
+    <div class="modal fade" id="avatarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title gaming-font">Cambiar Avatar</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="file" class="form-control" accept="image/*">
+                    </div>
+                    <div class="text-center">
+                        <button class="btn gaming-btn">Subir Imagen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal Cambiar Contraseña -->
+    <div class="modal fade" id="passwordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title gaming-font">Cambiar Contraseña</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="passwordForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Contraseña Actual</label>
+                            <input type="password" class="form-control" id="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn gaming-btn w-100">Actualizar Contraseña</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (igual que index.html) -->
+    <footer class="bg-dark text-light py-4 border-top border-primary">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5 class="gaming-font">GamesHood</h5>
+                    <p class="text-muted">Tu plataforma de compraventa de videojuegos</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html" class="text-light">Sobre Nosotros</a></li>
+                        <li><a href="faq.html" class="text-light">Preguntas Frecuentes</a></li>
+                        <li><a href="contact.html" class="text-light">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Síguenos</h5>
+                    <div class="social-icons">
+                        <a href="https://twitter.com" class="text-light me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="https://facebook.com" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="https://instagram.com" class="text-light me-3"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <p class="text-center mb-0">&copy; 2025 GamesHood. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Datos de ejemplo para pedidos
+        const orders = [
+            {
+                id: 1,
+                date: '2023-08-15',
+                total: 145.97,
+                status: 'Entregado',
+                items: ['CyberQuest 2077', 'The Witcher 3']
+            },
+            {
+                id: 2,
+                date: '2023-08-10',
+                total: 69.99,
+                status: 'En camino',
+                items: ['God of War']
+            }
+        ];
+
+        // Función para cargar pedidos
+        const loadOrders = () => {
+            const ordersList = document.getElementById('ordersList');
+            ordersList.innerHTML = orders.map(order => `
+                <div class="order-item bg-dark p-3 mb-3 rounded">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <h6 class="gaming-font">Pedido #${order.id}</h6>
+                            <small class="text-muted">${order.date}</small>
+                        </div>
+                        <span class="badge ${order.status === 'Entregado' ? 'bg-success' : 'bg-warning'}">
+                            ${order.status}
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="mb-0">${order.items.join(', ')}</p>
+                        </div>
+                        <div>
+                            <strong>$${order.total}</strong>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrders();
+        });
+    </script>
+</body>
+
+</html>
