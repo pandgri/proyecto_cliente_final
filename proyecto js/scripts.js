@@ -109,20 +109,35 @@ function mostrarJuegos(juegos = games) {
     
     // Crear HTML de la tarjeta
     const tarjeta = `
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="${juego.image}" class="card-img-top">
-          <div class="card-body">
-            <h5>${juego.title}</h5>
-            <p>Precio: ${juego.price}€</p>
-            <p>Valoración: ${promedio.toFixed(1)}/5</p>
-            <button onclick="agregarAlCarrito(${juego.id})" class="btn btn-success">
-              Añadir al carrito
+    <div class="col mb-4">
+      <div class="card h-100 bg-dark text-light game-card">
+        <div class="position-relative">
+          <img src="${juego.image}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;">
+          <span class="position-absolute top-0 end-0 bg-primary px-3 py-1 rounded-bl">${juego.price.toFixed(2)}€</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title gaming-font text-truncate">${juego.title}</h5>
+          
+          <div class="d-flex align-items-center mb-2">
+            <div class="star-rating">
+              ${'<i class="bi bi-star-fill text-warning"></i>'.repeat(Math.floor(promedio))}
+              ${'<i class="bi bi-star text-warning"></i>'.repeat(5 - Math.ceil(promedio))}
+            </div>
+            <small class="text-muted ms-2">(${juego.reviews.length} reseñas)</small>
+          </div>
+          
+          <p class="card-text flex-grow-1 text-truncate-3">${juego.description}</p>
+          
+          <div class="d-grid gap-2 mt-3">
+            <button onclick="agregarAlCarrito(${juego.id})" class="btn btn-primary btn-sm">
+              <i class="bi bi-cart-plus"></i> Añadir al carrito
             </button>
           </div>
+
+        </div>
         </div>
       </div>
-    `;
+    </div>`;
     
     contenedor.innerHTML += tarjeta; // Agregar tarjeta al contenedor
   }
@@ -130,38 +145,35 @@ function mostrarJuegos(juegos = games) {
 
 // 4. FUNCIÓN PARA AÑADIR AL CARRITO
 function agregarAlCarrito(idJuego) {
-  // Buscar el juego en el arreglo
-  let juegoSeleccionado;
-  for (let i = 0; i < games.length; i++) {
-    if (games[i].id === idJuego) {
-      juegoSeleccionado = games[i];
-      break;
-    }
-  }
-  
-  // Verificar si ya está en el carrito
-  let existe = false;
-  for (let i = 0; i < carrito.length; i++) {
-    if (carrito[i].id === idJuego) {
-      carrito[i].cantidad += 1;
-      existe = true;
-      break;
-    }
-  }
-  
-  // Si no existe, agregarlo
-  if (!existe) {
+  const juego = games.find(j => j.id === idJuego);
+  const itemExistente = carrito.find(item => item.id === idJuego);
+
+  if (itemExistente) {
+    itemExistente.cantidad++;
+  } else {
     carrito.push({
-      id: juegoSeleccionado.id,
-      title: juegoSeleccionado.title,
-      price: juegoSeleccionado.price,
-      cantidad: 1
+      id: juego.id,
+      title: juego.title,
+      price: juego.price,
+      cantidad: 1,
+      image: juego.image // Añadimos la imagen para mostrarla en el carrito
     });
   }
-  
+
   actualizarCarrito();
-  alert('Producto añadido!');
+  
+  // Mostrar notificación flotante
+  const notificacion = document.createElement('div');
+  notificacion.className = 'position-fixed bottom-0 end-0 m-3 p-3 bg-success text-white rounded shadow';
+  notificacion.innerHTML = `
+    <i class="bi bi-check2-circle me-2"></i>
+    ${juego.title} añadido al carrito
+  `;
+  document.body.appendChild(notificacion);
+  
+  setTimeout(() => notificacion.remove(), 3000);
 }
+  
 
 // 5. ACTUALIZAR CARRITO EN PANTALLA Y ALMACENAMIENTO
 function actualizarCarrito() {
