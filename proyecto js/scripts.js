@@ -67,7 +67,7 @@ const priceValue = document.getElementById('priceValue');
 const initPriceFilter = () => {
     priceFilter.max = maxPrice;
     priceFilter.value = maxPrice;
-    priceValue.textContent = `$${maxPrice.toFixed(2)}`;
+    priceValue.textContent = `${maxPrice.toFixed(2)}€`;
 };
 
 // Filtrado de juegos
@@ -75,7 +75,7 @@ const filterGames = () => {
     const currentMax = games.length > 0 ? Math.max(...games.map(game => game.price)) : 0;
     const filteredGames = games.filter(game => game.price <= parseFloat(priceFilter.value));
     renderGames(filteredGames);
-    priceValue.textContent = `$${parseFloat(priceFilter.value).toFixed(2)}`;
+    priceValue.textContent = `${parseFloat(priceFilter.value).toFixed(2)}€`;
     
     // Actualizar máximo dinámicamente si cambian los datos
     if (currentMax !== maxPrice) {
@@ -122,7 +122,7 @@ const renderGames = (gamesArray = games) => {
                 <img src="${game.image}" class="card-img-top" alt="${game.title}">
                 <div class="card-body">
                     <h5 class="card-title">${game.title}</h5>
-                    <p class="card-text">$${game.price}</p>
+                    <p class="card-text">${game.price}€</p>
                     <div class="reviews-small mb-3">
                         ${averageRating > 0 
                             ? `★ ${averageRating.toFixed(1)} (${game.reviews.length} reseñas)`
@@ -150,7 +150,7 @@ const showGameDetails = (gameId) => {
             </div>
             <div class="col-md-6">
                 <h3>${game.title}</h3>
-                <p class="lead">$${game.price}</p>
+                <p class="lead">${game.price}€</p>
                 <p>${game.description}</p>
                 <h4>Reseñas</h4>
                 ${game.reviews.map(review => `
@@ -206,22 +206,6 @@ const submitReview = (event, gameId) => {
     renderGames();
     showGameDetails(gameId);
     form.reset();
-};
-
-// Notificaciones
-const showToast = (message) => {
-    const toast = document.createElement('div');
-    toast.className = 'toast align-items-center text-bg-primary border-0';
-    toast.innerHTML = `
-        <div class="d-flex">
-            <div class="toast-body">${message}</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    `;
-    
-    document.body.appendChild(toast);
-    new bootstrap.Toast(toast, { autohide: true, delay: 2000 }).show();
-    setTimeout(() => toast.remove(), 2500);
 };
 
 // Inicialización
