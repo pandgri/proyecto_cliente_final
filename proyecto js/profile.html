@@ -222,66 +222,93 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Datos de ejemplo para pedidos
-        let orders = [
+        let pedidos = [
             {
                 id: 1,
-                date: '2023-08-15',
+                fecha: '2023-08-15',
                 total: 145.97,
-                status: 'Entregado',
-                items: ['CyberQuest 2077', 'The Witcher 3']
+                estado: 'Entregado',
+                productos: ['CyberQuest 2077', 'The Witcher 3']
             },
             {
                 id: 2,
-                date: '2023-08-10',
+                fecha: '2023-08-10',
                 total: 69.99,
-                status: 'En camino',
-                items: ['God of War']
+                estado: 'En camino',
+                productos: ['God of War']
             }
         ];
-
-        // Función para cargar pedidos
-        const loadOrders = () => {
-            const ordersList = document.getElementById('ordersList');
-            ordersList.innerHTML = orders.map(order => `
-                <div class="order-item bg-dark p-3 mb-3 rounded">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6 class="gaming-font">Pedido #${order.id}</h6>
-                            <small class="text-muted">${order.date}</small>
+    
+        // Función para mostrar los pedidos
+        function mostrarPedidos() {
+            const listaPedidos = document.getElementById('ordersList');
+            listaPedidos.innerHTML = '';
+            
+            for (let i = 0; i < pedidos.length; i++) {
+                const pedido = pedidos[i];
+                listaPedidos.innerHTML += `
+                    <div class="order-item bg-dark p-3 mb-3 rounded">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="gaming-font">Pedido #${pedido.id}</h6>
+                                <small class="text-muted">${pedido.fecha}</small>
+                            </div>
+                            <span class="badge ${pedido.estado === 'Entregado' ? 'bg-success' : 'bg-warning'}">
+                                ${pedido.estado}
+                            </span>
                         </div>
-                        <span class="badge ${order.status === 'Entregado' ? 'bg-success' : 'bg-warning'}">
-                            ${order.status}
-                        </span>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="mb-0">${pedido.productos.join(', ')}</p>
+                            </div>
+                            <div>
+                                <strong>${pedido.total.toFixed(2)}€</strong>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <p class="mb-0">${order.items.join(', ')}</p>
-                        </div>
-                        <div>
-                            <strong>$${order.total}</strong>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        };
-
-        // Función para agregar un nuevo pedido
-        const addOrder = () => {
-            const newOrder = {
-                id: orders.length + 1,
-                date: new Date().toISOString().split('T')[0],
-                total: Math.floor(Math.random() * 100) + 50,
-                status: 'En proceso',
-                items: ['Nuevo Juego ' + (orders.length + 1)]
+                `;
+            }
+        }
+    
+        // Función para agregar nuevo pedido de ejemplo
+        function agregarPedidoEjemplo() {
+            const nuevoPedido = {
+                id: pedidos.length + 1,
+                fecha: new Date().toLocaleDateString(),
+                total: Math.random() * 100 + 50,
+                estado: 'En camino',
+                productos: ['Juego Nuevo ' + (pedidos.length + 1)]
             };
-            orders.unshift(newOrder); // Agregar al principio de la lista
-            loadOrders();
-        };
-
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', () => {
-            loadOrders();
-            document.getElementById('addOrderBtn').addEventListener('click', addOrder);
+            
+            pedidos.unshift(nuevoPedido);
+            mostrarPedidos();
+        }
+    
+        // Función para guardar cambios del perfil
+        function guardarPerfil(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const bio = document.getElementById('bio').value;
+            
+            document.getElementById('username').textContent = nombre;
+            alert('Cambios guardados correctamente');
+        }
+    
+        // Configurar eventos al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            // Mostrar pedidos iniciales
+            mostrarPedidos();
+            
+            // Configurar botón de nuevo pedido
+            document.getElementById('addOrderBtn').addEventListener('click', agregarPedidoEjemplo);
+            
+            // Configurar formulario de perfil
+            document.getElementById('profileForm').addEventListener('submit', guardarPerfil);
+            
+            // Actualizar contador del carrito
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            document.getElementById('cartCount').textContent = carrito.length;
         });
     </script>
 </body>
