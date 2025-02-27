@@ -71,7 +71,7 @@ En esta página hemos obtenido todas la documentación necesaria para realizar l
 
 #### Ahora vamos a explicar todas las funcionalidades, con el codigo comentado, además de una explicación de su funcionamiento, esta seccion se va a dividir por las funciones que hemos realizado cada uno de nosotros: 
 
-#### Funcionalidades de Sergio : 
+### Funcionalidades de Sergio : 
 
 - Crear el filtro: Accedemos a los elementos del filtrado de precio y del valor del precio, una vez obtenidos calculamos el precio maximo, con este bucle recorremos todos los juegos que hay para encontrar el juego o los juegos con el precio mas alto. Segun el juego que haya con el maximo del precio, ese juego será el que se ponga en el máximo del filtrado. También tenemos la funcionalidad para cargar el filtrado de juegos por precio cuando la pagina carga.
 
