@@ -254,7 +254,171 @@ const games = [
 ```
 
 
+### Funcionalidades de Pablo: 
 
+- Crear la comprobación a la hora de comprar lo que está añadido al carrito: Cuando se rellena el formulario, se elimina los productos del carrito y se envía un mensaje diciendo 'Se ha realizado el pago correctamente'. Finalmente se hace una redicrrección hacia la página principal.
+
+```javascript
+document.getElementById('paymentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            // Limpiar el carrito (asumiendo que está almacenado en localStorage)
+            localStorage.removeItem('cart');
+    
+            alert('Se ha realizado el pago correctamente')
+
+            // Redirigir a index.html
+            window.location.href = 'index.html';
+        });
+```
+
+- Funcionalidad para mostrar el carrito con los productos que se han añadido: Se crea un html con todos los atributos de cada producto para añadirlo a la página html del carrito y finalmente llama a una función que actualiza el precio total de todos los productos que se encuentran en el carrito
+
+```javascript
+// Mostrar los productos en el carrito
+        function mostrarCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const contenedor = document.getElementById('cartItems');
+            const carritoVacio = document.getElementById('emptyCart');
+            const resumen = document.querySelector('.cart-summary');
+    
+            // Mostrar mensaje si está vacío
+            if (carrito.length === 0) {
+                carritoVacio.style.display = 'block';
+                resumen.style.display = 'none';
+                return;
+            }
+            
+            carritoVacio.style.display = 'none';
+            resumen.style.display = 'block';
+            
+            // Crear HTML para cada producto
+            let html = '';
+            for (let i = 0; i < carrito.length; i++) {
+                const producto = carrito[i];
+                html += `
+                    <div class="cart-item card bg-dark mb-3 border-primary">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="${producto.image}" class="img-fluid rounded" style="height: 100px; object-fit: cover;">
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="card-title">${producto.title}</h5>
+                                    <p class="text-muted">${producto.price.toFixed(2)}€</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-outline-primary" onclick="cambiarCantidad(${producto.id}, -1)">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                        <input type="number" class="form-control text-center mx-2" 
+                                               value="${producto.cantidad}" min="1" 
+                                               onchange="cambiarCantidadInput(${producto.id}, this.value)">
+                                        <button class="btn btn-outline-primary" onclick="cambiarCantidad(${producto.id}, 1)">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <h5>${(producto.price * producto.cantidad).toFixed(2)}€</h5>
+                                </div>
+                                <div class="col-md-1 text-end">
+                                    <button class="btn btn-danger" onclick="eliminarProducto(${producto.id})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            contenedor.innerHTML = html;
+            
+            actualizarTotales();
+        }
+```
+
+- Funcionalidad actualizar el precio total de todos los productos que hay añadidos en el carrito: Esta es la función que se llama en la función anterior al final y hace que sume todos los precios de los productos y los multiplique por el número de productos
+
+```javascript
+// Calcular precio total
+        function actualizarTotales() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            let subtotal = 0;
+            
+            for (let i = 0; i < carrito.length; i++) {
+                subtotal += carrito[i].price * carrito[i].cantidad;
+            }
+            
+            const envio = 5.00;
+            const total = subtotal + envio;
+            
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '€';
+            document.getElementById('total').textContent = total.toFixed(2) + '€';
+        }
+```
+
+- Funcionalidad de eliminar o añadir mas cantidad de un producto que ya tenemos añadido en el carrito: Lo que hace es que segun el numero que esté en el input se multiplica el precio por el nuḿero de productos que esté vinculado a ese producto. Finalmente muestra el carrito con los datos modificados después de haberse modificado
+
+```javascript
+// Cambiar cantidad de productos con botones +/-
+        function cambiarCantidad(id, cambio) {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            
+            for (let i = 0; i < carrito.length; i++) {
+                if (carrito[i].id === id) {
+                    carrito[i].cantidad += cambio;
+                    
+                    if (carrito[i].cantidad < 1) {
+                        carrito.splice(i, 1);
+                    }
+                    
+                    break;
+                }
+            }
+            
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+            actualizarContador();
+        }
+    
+        // Cambiar cantidad de productos desde el input
+        function cambiarCantidadInput(id, nuevaCantidad) {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            
+            for (let i = 0; i < carrito.length; i++) {
+                if (carrito[i].id === id) {
+                    carrito[i].cantidad = Math.max(1, Number(nuevaCantidad));
+                    break;
+                }
+            }
+            
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+            actualizarContador();
+        }
+```
+
+- Funcionalidad de eliminar producto del carrito: Se crea un nuevo carrito en el que se va a introducir todos los productos, después de eliminar los productos y finalmente se muestra el carrito con los datos cambiados
+
+```javascript
+// Eliminar producto del carrito
+        function eliminarProducto(id) {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const nuevoCarrito = [];
+            
+            for (let i = 0; i < carrito.length; i++) {
+                if (carrito[i].id !== id) {
+                    nuevoCarrito.push(carrito[i]);
+                }
+            }
+            
+            localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+            mostrarCarrito();
+            actualizarContador();
+        }
+```
 
 
 
