@@ -16,7 +16,6 @@
 
 - Lenguajes utilizados para este proyecto : 
 <br>
-<br>
 Javascript: Es el lenguaje que hemos aprendido en esta asignatura y hemos aprendido a masterizarlo a lo largo de todo este curso, todas las funcionalidades de este proyecto funcionan con este lenguaje.
 <br>
 <br>
@@ -27,6 +26,8 @@ CSS: Añadimos estilos y hacemos que la pagina web tenga un diseño atractivo ha
 <br>
 <br>
 Boostrap: Incluye elementos ya prediseñados para el uso de la pagina web, como por ejemplo hacerla responsive.
+<br>
+<br>
 
 - Aplicación utilizada para realizar el proyecto : Visual Studio code
 
