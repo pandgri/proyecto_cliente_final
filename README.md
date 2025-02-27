@@ -28,6 +28,8 @@ CSS: Añadimos estilos y hacemos que la pagina web tenga un diseño atractivo ha
 <br>
 Boostrap: Incluye elementos ya prediseñados para el uso de la pagina web, como por ejemplo hacerla responsive.
 
+- Aplicación utilizada para realizar el proyecto : Visual Studio code
+
 
 ## Referencias
 
