@@ -122,6 +122,137 @@ function filtrarPorPrecio() {
 }
 
 ````
+- Funcion añadir al carrito: Cuando le puslsas al boton añadir al carrito en index, llama a esta función que se llama a añadir al carrito, coge todos los datos del juego que hemos seleccionado y luego despues de hacer las comprobaciones añade el juego, con todos sus datos al carrito.
+```javascript
+function agregarAlCarrito(idJuego) {
+  const juego = games.find(j => j.id === idJuego);
+  const itemExistente = carrito.find(item => item.id === idJuego);
+
+  if (itemExistente) {
+    itemExistente.cantidad++;
+  } else {
+    carrito.push({
+      id: juego.id,
+      title: juego.title,
+      price: juego.price,
+      cantidad: 1,
+      image: juego.image // Añadimos la imagen para mostrarla en el carrito
+    });
+  }
+
+  actualizarCarrito();
+  
+  // Mostrar notificación flotante
+  const notificacion = document.createElement('div');
+  notificacion.className = 'position-fixed bottom-0 end-0 m-3 p-3 bg-success text-white rounded shadow';
+  notificacion.innerHTML = `
+    <i class="bi bi-check2-circle me-2"></i>
+    ${juego.title} añadido al carrito
+  `;
+  document.body.appendChild(notificacion);
+  
+  setTimeout(() => notificacion.remove(), 3000);
+}
+  
+```
+
+- Login: Cuando se rellena el formulario, se hace una comprobacion de que todo está correcto y se envia un mensaje "se ha iniciado sesion correctamente", y nos redirige al index
+```javascript
+<script>
+        document.getElementById('paymentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+    
+            alert('Se ha iniciado sesión correctamente')
+
+            // Redirigir a index.html
+            window.location.href = 'index.html';
+        });
+    </script>
+
+```
+- Creacion de objetos dinamicos: Con este array/lista, creamos objectos para poder utilizarlos después en las funcionalidades de la página
+```javascript
+const games = [
+    {
+        id: 1,
+        title: "CyberQuest 2077",
+        price: 45.99,
+        image: "https://cdn1.epicgames.com/offer/77f2b98e2cef40c8a7437518bf420e47/EGS_Cyberpunk2077_CDPROJEKTRED_S2_03_1200x1600-b1847981214ac013383111fc457eb9c5", 
+        description: "Un RPG futurista con gráficos impresionantes y mundo abierto.",
+        reviews: [
+            { user: "GamerPro", rating: 4, comment: "¡Increíble experiencia de juego!" },
+            { user: "RetroLover", rating: 5, comment: "El mejor juego del año" }
+        ]
+    },
+    {
+        id: 2,
+        title: "The Witcher 3",
+        price: 29.99,
+        image: "https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lVl6rY.png",
+        description: "Juego de rol de mundo abierto premiado mundialmente.",
+        reviews: []
+    },
+    {
+        id: 3,
+        title: "Rise of the Tomb Raider",
+        price: 49.99,
+        image: "https://www.croftgeneration.com/wp-content/uploads/2020/11/rise-tombraider.jpg",
+        description: "Juego de aventuras.",
+        reviews: []
+    },
+    {
+        id: 4,
+        title: "Uncharted 4",
+        price: 69.99,
+        image: "https://image.api.playstation.com/vulcan/img/rnd/202010/2620/gPTPUF3mT9FXELav8OKXmr9j.png",
+        description: "Juego de accion.",
+        reviews: []
+    },
+    {
+        id: 5,
+        title: "Red dead Redemption 2",
+        price: 69.99,
+        image: "https://image.api.playstation.com/cdn/UP1004/CUSA03041_00/Hpl5MtwQgOVF9vJqlfui6SDB5Jl4oBSq.png",
+        description: "Juego de accion.",
+        reviews: []
+    },
+    {
+        id: 6,
+        title: "God of war",
+        price: 59.99,
+        image: "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LsaRVLF2IU2L1FNtu9d3MKLq.jpg",
+        description: "Juego de accion.",
+        reviews: []
+    },
+
+];
+```
+- Función actualizar el icono del carrito: segun el tamaño de la lista se cambia el icono despues de haber sumado toda la cantidad de productos
+```javascript
+
+        // Actualizar número en el icono del carrito
+        function actualizarContador() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            let total = 0;
+            
+            for (let i = 0; i < carrito.length; i++) {
+                total += carrito[i].cantidad;
+            }
+            
+            document.getElementById('cartCount').textContent = total;
+        }
+    
+```
+
+- DOM al cargar la página de carrito : cuando la pagina de carrito carga, se llama a estas 2 funcionalidades para que se ejecuten
+```javascript
+ // Al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            mostrarCarrito();
+            actualizarContador();
+        });
+```
+
 
 
 
