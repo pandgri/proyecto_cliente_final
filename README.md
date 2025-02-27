@@ -420,6 +420,114 @@ document.getElementById('paymentForm').addEventListener('submit', function(event
         }
 ```
 
+### Funcionalidades de Juan Manuel:
+
+- Creacion y listado de pedidos: Creamos los pedidos definiendo sus atributos como los productos que ha pedido o el estado de la entrega, con los productos creados añadimos una funcion en la que nos mostrara los pedidos que hemos creado de antemano y lo mostramos dentro de nuestra pagina de perfil
+```javascript
+        // Datos para pedidos
+        let pedidos = [
+            {
+                id: 1,
+                fecha: '2023-08-15',
+                total: 145.97,
+                estado: 'Entregado',
+                productos: ['CyberQuest 2077', 'The Witcher 3']
+            },
+            {
+                id: 2,
+                fecha: '2023-08-10',
+                total: 69.99,
+                estado: 'En camino',
+                productos: ['God of War']
+            }
+        ];
+    
+        // Función para mostrar los pedidos
+        function mostrarPedidos() {
+            const listaPedidos = document.getElementById('ordersList');
+            listaPedidos.innerHTML = '';
+            
+            for (let i = 0; i < pedidos.length; i++) {
+                const pedido = pedidos[i];
+                listaPedidos.innerHTML += `
+                    <div class="order-item bg-dark p-3 mb-3 rounded">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="gaming-font">Pedido #${pedido.id}</h6>
+                                <small class="text-muted">${pedido.fecha}</small>
+                            </div>
+                            <span class="badge ${pedido.estado === 'Entregado' ? 'bg-success' : 'bg-warning'}">
+                                ${pedido.estado}
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="mb-0">${pedido.productos.join(', ')}</p>
+                            </div>
+                            <div>
+                                <strong>${pedido.total.toFixed(2)}€</strong>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+````
+
+- Crear un pedido de ejemplo: Creamos una funcion que genere un nuevo pedido de ejemplo, le añadimos atributos nuevos y lo implementamos en la funcion de mostrar los pedidos para que se vea junto a los otros que ya estaban definidos 
+```javascript
+        // Función para agregar nuevo pedido de ejemplo
+        function agregarPedidoEjemplo() {
+            const nuevoPedido = {
+                id: pedidos.length + 1,
+                fecha: new Date().toLocaleDateString(),
+                total: Math.random() * 100 + 50,
+                estado: 'En camino',
+                productos: ['Juego Nuevo ' + (pedidos.length + 1)]
+            };
+            
+            pedidos.unshift(nuevoPedido);
+            mostrarPedidos();
+        }
+
+````
+
+- Modificar datos del usuario: Creamos una funcion que nos permita modificar los valores del usuario accediendo a la ID de cada atributo, creamos un boton y un alert para avisar que se han aplicado los cambios
+```javascript
+        // Función para guardar cambios del perfil
+        function guardarPerfil(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const bio = document.getElementById('bio').value;
+            
+            document.getElementById('username').textContent = nombre;
+            alert('Cambios guardados correctamente');
+        }
+
+````
+
+- Funciones adicionales: Aplicamos todas las funciones de la pagina perfil para que funcione correctamente y que se implemente cosas como el carrito de la compra 
+```javascript
+        // Configurar eventos al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            // Mostrar pedidos iniciales
+            mostrarPedidos();
+            
+            // Configurar botón de nuevo pedido
+            document.getElementById('addOrderBtn').addEventListener('click', agregarPedidoEjemplo);
+            
+            // Configurar formulario de perfil
+            document.getElementById('profileForm').addEventListener('submit', guardarPerfil);
+            
+            // Actualizar contador del carrito
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            document.getElementById('cartCount').textContent = carrito.length;
+        });
+
+````
+
 
 
 
