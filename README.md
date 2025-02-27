@@ -65,10 +65,10 @@ En esta página hemos obtenido todas la documentación necesaria para realizar l
 
 - Sergio : Creacion de los html de index y login, funcionalidades filtrar videojuegos por precio, añadir al carrito y el inicio y cierre de sesion.
 <br>
-<br>
+
 - Pablo Enrique : Creacion de los HTML, checkout(datos bancarios), carrito, funcionalidades de crear las card y funciones varias del carrito
 <br>
-<br>
+
 - Juan Manuel: Creacion de los html profile y logout, funcionalidades del profile
 
 
